@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-let title = <h1>react title</h1>;
+import App from './App';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-root.render(title);
+root.render(<App />);
 
 // const options = {
 //   method: 'GET',
@@ -40,15 +40,15 @@ class ApiService {
 	}
 }
 
-const Api = new ApiService();
+// const Api = new ApiService();
 
-Api.getAllPeople().then((people) => {
-	console.info('getAllPeople');
-	for (let person of people) {
-		console.log(person.name);
-	}
-});
-Api.getPerson(2).then((response) => {
-	console.log('getPerson');
-	console.log(response);
-});
+// Api.getAllPeople().then((people) => {
+// 	console.info('getAllPeople');
+// 	for (let person of people) {
+// 		console.log(person.name);
+// 	}
+// });
+// Api.getPerson(2).then((response) => {
+// 	console.log('getPerson');
+// 	console.log(response);
+// });
