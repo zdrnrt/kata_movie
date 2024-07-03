@@ -14,7 +14,7 @@
 	},
 	"plugins": ["react", "import"],
 	"rules": {
-		"indent": ["warn", 2],
+		"indent": ["n"],
 		"linebreak-style": [0, "unix"],
 		"quotes": ["error", "single"],
 		"semi": ["error", "never"],
