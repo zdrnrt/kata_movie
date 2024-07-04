@@ -1,45 +1,42 @@
-import React, {useState, useEffect} from 'react';
-import './scss/App.scss'
+import React, { useState, useEffect } from 'react';
+import './scss/App.scss';
 import Tool from './Components/Tool';
 import List from './Components/List';
 import Load from './Components/Load';
 
 export default function App() {
-	const tool = Tool();
-	// let [status, setStatus] = useState({
-	// 	load: true,
-	// 	error: null,
-	// 	data: []
-	// });
-	let [status, setStatus] = useState({
-		load: false,
-		error: null,
-		data: []
+	const tool = new Tool();
+	let [state, changeAppState] = useState({
+		request: {
+			query: null,//'return',
+			page: 1
+		},
+		status: {
+			load: true,
+			error: null,
+			data: null,
+		}
 	});
-	if (!status.load){
-		try {
-			Tool().request.get('return').then((data) => {
-				console.log('data', data);
-				setStatus({
-					load: true,
-					error: null,
-					data: data
-				})
-			});
-		}
-		catch (error) {
-			console.log(error);
-			setStatus({
-				load: true,
-				error: error,
-				data: []
-			})
-		}
+	function changeQuery(query){
+		changeAppState((state) => { return {status: {load: false, error: null, data: null}, request: {...state.request,  query}} })
 	}
-	console.log('status', status);	
+	function changePage(page){
+		changeAppState((stastatetus) => { return {status: {load: false, error: null, data: null}, request: {...state.request, page}} })
+	}
+	if (!state.status.load) {
+		tool.getMovie(state.request)
+			.then((data) => {
+				console.log('tool.getMovie', data);
+				changeAppState((state) => { return {...state, status: {load: true, error: null, data}} })
+			})
+			.catch( (error) => {
+				changeAppState((state) => { return {...state, status: {load: true, error, data: null}} })
+			})
+	}
+	console.log('state', state);
 	return (
 		<div className="container">
-			<List props={status}/>
+			<List props={state} listener={{query: changeQuery, page: changePage}}/>
 		</div>
 	);
 }

@@ -1,25 +1,25 @@
-.tile{
-    padding: 0;
-    .ant-card-body{
-        padding: 0;
-    }
-    &__poster{
-        display: block;
-        width: 180px;
-        height: auto;
-        object-fit: contain;
-        flex: 180px 0 0;
-    }
-    &__info{
-        padding: 10px 10px 20px 20px;
-    }
-    &__rate{
-        width: 30px;
-        height: 30px;
-        line-height: 30px;
-        font-size: 12px;
-        text-align: center;
-        border: 2px solid #E9D100;
-        border-radius: 50%;
-    }
+.tile {
+	padding: 0;
+	.ant-card-body {
+		padding: 0;
+	}
+	&__poster {
+		display: block;
+		width: 180px;
+		height: auto;
+		object-fit: contain;
+		flex: 180px 0 0;
+	}
+	&__info {
+		padding: 10px 10px 20px 20px;
+	}
+	&__rate {
+		width: 30px;
+		height: 30px;
+		line-height: 30px;
+		font-size: 12px;
+		text-align: center;
+		border: 2px solid #e9d100;
+		border-radius: 50%;
+	}
 }
