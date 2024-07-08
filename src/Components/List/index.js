@@ -1,14 +1,14 @@
 import React from 'react';
-import { Typography, Row, Alert, Pagination, Input } from 'antd';
+import { Typography, Row, Alert, Pagination } from 'antd';
 const { Paragraph } = Typography;
 import Tile from '../Tile';
 import Load from '../Load';
 
 export default function List(props) {
-	console.log('List', props.props);
+	console.log('List', props);
 
-	const request = props.props.request;
-	const status = props.props.status;
+	const request = props.request;
+	const status = props.status;
 	let result = null;
 	let pagination = null;
 
@@ -51,13 +51,7 @@ export default function List(props) {
 	}
 
 	return (
-		<div style={{ padding: '20px 0' }}>
-			<Input
-				value={request.query}
-				placeholder="Type to search..."
-				size="large"
-				onChange={(event) => props.listener.query(event.target.value)}
-			/>
+		<div>
 			{!!result && (
 				<Row gutter={[36, 36]} align="stretch" style={{ padding: '34px 0' }}>
 					{result}

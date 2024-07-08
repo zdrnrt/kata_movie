@@ -2,11 +2,19 @@ import React from 'react';
 import { Typography, Card, Flex, Rate, Col } from 'antd';
 import { format } from 'date-fns';
 import './Tile.scss';
-const { Title, Paragraph, Text, Link } = Typography;
+const { Title, Paragraph, Text } = Typography;
 
 export default function Tile(props) {
 	const movie = props.props;
 	const genre = movie.genre_ids.length > 0 ? movie.genre_ids.map((rate, i) => <span key={i}>{rate}</span>) : null;
+	let rateColor = '#E90000';
+	if (movie.vote_average >= 3 && movie.vote_average < 5) {
+		rateColor = '#E97E00';
+	} else if (movie.vote_average >= 5 && movie.vote_average < 7) {
+		rateColor = '#E9D100';
+	} else {
+		rateColor = '#66E900';
+	}
 	return (
 		<Col span={6} xs={12}>
 			<Card className="tile" padding={0}>
@@ -21,7 +29,9 @@ export default function Tile(props) {
 							<Title level={2} style={{ margin: 0, fontSize: 20 }}>
 								{movie.title}
 							</Title>
-							<Text className="tile__rate">{movie.vote_average.toFixed(1)}</Text>
+							<Text className="tile__rate" style={{ borderColor: rateColor }}>
+								{movie.vote_average.toFixed(1)}
+							</Text>
 						</Flex>
 						{!!movie.release_date && (
 							<Paragraph style={{ marginBottom: 7, color: '#827E7E' }}>
