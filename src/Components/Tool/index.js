@@ -8,7 +8,7 @@ export default class Tool extends Component {
 
 	componentDidMount() {}
 
-	async getMovie(request) {
+	async findMovie(request) {
 		const options = {
 			headers: this.headers,
 			method: 'GET',
@@ -21,7 +21,7 @@ export default class Tool extends Component {
 			`https://api.themoviedb.org/3/search/movie?query=${request.query}&page=${request.page}`,
 			options
 		).then((response) => {
-			console.log(response);
+			console.log('tool findMovie', response);
 			if (response.ok) {
 				return response.json();
 			}
@@ -86,7 +86,6 @@ export default class Tool extends Component {
 		console.log('Tool', request);
 		this.guestSession = await fetch('https://api.themoviedb.org/3/genre/movie/list?language=en', options).then(
 			(response) => {
-				console.log(response);
 				if (response.ok) {
 					response.json();
 				}
