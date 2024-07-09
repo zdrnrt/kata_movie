@@ -8,9 +8,12 @@ export default class List extends Component {
 	constructor(props) {
 		super(props);
 	}
+	componentDidMount() {}
+	// static contextType = ToolContext
+	// static contextType = ContextGuest;
 	// static ContextGuest = ContextGuest;
 	render() {
-		console.log('context', this.context);
+		console.log('List context', this.context);
 		const request = this.props.request;
 		const status = this.props.status;
 		let result = null;

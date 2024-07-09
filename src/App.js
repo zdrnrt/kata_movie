@@ -1,12 +1,11 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, { Component } from 'react';
 import _ from 'lodash';
 import './scss/App.scss';
 import { Input } from 'antd';
+import ToolContext from './Components/Context';
 import Tool from './Components/Tool';
 import List from './Components/List';
 import Tab from './Components/Tab';
-
-const ContextGuest = React.createContext('test1');
 
 export default class App extends Component {
 	constructor(props) {
@@ -26,15 +25,13 @@ export default class App extends Component {
 		},
 	};
 
-	componentDidMount() {
-		console.log('componentDidMount');
-	}
+	componentDidMount() {}
 
 	componentWillUnmount() {
 		console.log('componentWillUnmount');
 	}
 
-	tool = new Tool();
+	_tool = new Tool();
 
 	changeTab = (key) => {
 		console.log('changeTab', key);
@@ -56,7 +53,7 @@ export default class App extends Component {
 	};
 
 	findMovie = () => {
-		this.tool
+		this._tool
 			.findMovie(this.state.request)
 			.then((response) => {
 				console.log('App findMovie', response);
@@ -88,21 +85,25 @@ export default class App extends Component {
 		}
 
 		return (
-			<ContextGuest.Provider value={'test'}>
+			<ToolContext.Provider value={new Tool()}>
 				<main className="container">
 					<Tab active={this.state.tab} listener={this.changeTab} />
-					{this.state.tab == 1 && (
-						<Input
-							value={this.state.request.query}
-							placeholder="Type to search..."
-							size="large"
-							onChange={this.changeQuery}
-						/>
-					)}
+					<ToolContext.Consumer>
+						{(tool) => {
+							return (
+								<Input
+									value={this.state.request.query}
+									placeholder="Type to search..."
+									size="large"
+									onChange={this.changeQuery}
+								/>
+							);
+						}}
+					</ToolContext.Consumer>
 					<List request={this.state.request} status={this.state.status} />
 					{/* listener={{ page: changePage }}  */}
 				</main>
-			</ContextGuest.Provider>
+			</ToolContext.Provider>
 		);
 	}
 }
