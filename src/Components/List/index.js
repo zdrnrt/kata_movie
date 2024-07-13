@@ -8,20 +8,14 @@ export default class List extends Component {
 	constructor(props) {
 		super(props);
 	}
-	componentDidMount() {}
-	// static contextType = ToolContext
-	// static contextType = ContextGuest;
-	// static ContextGuest = ContextGuest;
+
 	render() {
-		console.log('List context', this.context);
 		const request = this.props.request;
 		const status = this.props.status;
 		let result = null;
 		let pagination = null;
 
-		if (!status.load && !!request.query) {
-			result = <Load />;
-		}
+		console.log(request, status);
 
 		if (status.load) {
 			if (!!status.error) {
@@ -36,10 +30,12 @@ export default class List extends Component {
 			}
 
 			if (!!status.data && status.data?.total_results > 0) {
-				result = status.data.results.map((movie) => <Tile key={movie.id} props={movie} />);
+				result = status.data.results.map((movie) => (
+					<Tile genre={this.props.genre} key={movie.id} props={movie} />
+				));
 				pagination = (
 					<Pagination
-						style={{ maxWidth: 'fit-content', margin: [0, 'auto'] }}
+						style={{ maxWidth: 'fit-content', margin: '0 auto' }}
 						hideOnSinglePage={true}
 						showSizeChanger={false}
 						showQuickJumper={false}
@@ -55,6 +51,12 @@ export default class List extends Component {
 			if (!!request.query && status.data?.total_results == 0) {
 				result = <Paragraph>{'Ничего не найдено'}</Paragraph>;
 			}
+
+			if (!request.query && !status.data) {
+				result = <Paragraph>{'Ничего не найдено'}</Paragraph>;
+			}
+		} else {
+			result = <Load />;
 		}
 
 		return (

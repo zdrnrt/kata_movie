@@ -2,7 +2,6 @@ import React from 'react';
 import { Tabs } from 'antd';
 
 export default function Tab(props) {
-	console.log('tab', props);
 	const items = [
 		{
 			key: 1,
@@ -19,7 +18,7 @@ export default function Tab(props) {
 			items={items}
 			centered={true}
 			onChange={(key) => props.listener(key)}
-			style={{ width: 'fit-content' }}
+			style={{ width: 'fit-content', margin: '0 auto' }}
 		/>
 	);
 }

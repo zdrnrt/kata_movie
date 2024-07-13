@@ -1,5 +1,4 @@
 .tile {
-	padding: 0;
 	.ant-card-body {
 		padding: 0;
 	}
@@ -14,11 +13,31 @@
 	&__info {
 		padding: 10px 10px 20px 20px;
 	}
+	&__head {
+		margin-bottom: 5px;
+	}
+	&__date {
+		margin-bottom: 7px;
+		color: '#827E7E';
+		text-transform: capitalize;
+	}
+	&__genre {
+		padding: 0 2px;
+		box-sizing: border-box;
+		background: #fafafa;
+		border: 1px solid #d9d9d9;
+		border-radius: 2px;
+		font-size: 12px;
+		text-transform: capitalize;
+	}
+	&__overview {
+		margin-bottom: 10px;
+	}
 	&__rate {
 		flex-shrink: 0;
 		width: 30px;
 		height: 30px;
-		line-height: 30px;
+		line-height: 25px;
 		font-size: 12px;
 		text-align: center;
 		border: 2px solid;

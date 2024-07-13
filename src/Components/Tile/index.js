@@ -1,12 +1,23 @@
 import React from 'react';
 import { Typography, Card, Flex, Rate, Col } from 'antd';
-import { format } from 'date-fns';
+import { format, Locale } from 'date-fns';
+import { ru } from 'date-fns/locale/ru';
 import './Tile.scss';
 const { Title, Paragraph, Text } = Typography;
 
 export default function Tile(props) {
 	const movie = props.props;
-	const genre = movie.genre_ids.length > 0 ? movie.genre_ids.map((rate, i) => <span key={i}>{rate}</span>) : null;
+	let genre = null;
+	if (movie.genre_ids.length > 0 && !!props.genre) {
+		genre = movie.genre_ids.map((el) => {
+			let result = props.genre.find((item) => item.id == el);
+			return (
+				<span className="tile__genre" key={result.id} id={result.id}>
+					{result.name}
+				</span>
+			);
+		});
+	}
 	let rateColor = '#E90000';
 	if (movie.vote_average >= 3 && movie.vote_average < 5) {
 		rateColor = '#E97E00';
@@ -16,7 +27,7 @@ export default function Tile(props) {
 		rateColor = '#66E900';
 	}
 	return (
-		<Col span={6} xs={12}>
+		<Col span={6} xs={12} data-id={movie.id}>
 			<Card className="tile" padding={0}>
 				<Flex justify="space-between">
 					<img
@@ -25,7 +36,7 @@ export default function Tile(props) {
 						className="tile__poster"
 					/>
 					<div className="tile__info">
-						<Flex justify="space-between" align="center" style={{ marginBottom: 5 }}>
+						<Flex className="tile__head" justify="space-between" align="center">
 							<Title level={2} style={{ margin: 0, fontSize: 20 }}>
 								{movie.title}
 							</Title>
@@ -34,13 +45,27 @@ export default function Tile(props) {
 							</Text>
 						</Flex>
 						{!!movie.release_date && (
-							<Paragraph style={{ marginBottom: 7, color: '#827E7E' }}>
+							<Paragraph className="tile__date">
+								{/* {format(new Date(movie.release_date), 'LLLL dd, yyyy', { locale: ru })} */}
 								{format(new Date(movie.release_date), 'LLLL dd, yyyy')}
 							</Paragraph>
 						)}
-						{!!genre && <Paragraph style={{ marginBottom: 7 }}>{genre}</Paragraph>}
-						<Paragraph style={{ marginBottom: 10 }}>{movie.overview}</Paragraph>
-						<Rate allowHalf defaultValue={movie.vote_average} count={10} />
+						{!!genre && (
+							<Paragraph style={{ marginBottom: 7 }}>
+								<Flex justify="flex-start" align="center" gap={8} wrap={true}>
+									{genre}
+								</Flex>
+							</Paragraph>
+						)}
+						<Paragraph className="tile__overview">{movie.overview}</Paragraph>
+						<Rate
+							allowHalf
+							value={movie.rating}
+							onChange={(e) => {
+								console.log(e);
+							}}
+							count={10}
+						/>
 					</div>
 				</Flex>
 			</Card>
