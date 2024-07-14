@@ -12,10 +12,11 @@ export default class List extends Component {
 	render() {
 		const request = this.props.request;
 		const status = this.props.status;
+		const rated = this.props.rated;
 		let result = null;
 		let pagination = null;
 
-		console.log(request, status);
+		console.log('List', request, status, rated);
 
 		if (status.load) {
 			if (!!status.error) {
@@ -30,9 +31,21 @@ export default class List extends Component {
 			}
 
 			if (!!status.data && status.data?.total_results > 0) {
-				result = status.data.results.map((movie) => (
-					<Tile genre={this.props.genre} key={movie.id} props={movie} />
-				));
+				result = status.data.results.map((movie) => {
+					// movie.rating = movie.rating || rated.find( (el) => el.id == movie.id ).value;
+					let rating = rated.find((el) => el.id == movie.id);
+					if (rating) {
+						movie.rating = rating.value;
+					}
+					return (
+						<Tile
+							genre={this.props.genre}
+							key={movie.id}
+							props={movie}
+							listener={this.props.listener.rate}
+						/>
+					);
+				});
 				pagination = (
 					<Pagination
 						style={{ maxWidth: 'fit-content', margin: '0 auto' }}

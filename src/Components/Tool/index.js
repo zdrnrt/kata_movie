@@ -6,6 +6,7 @@ export default class Tool extends Component {
 	// key = '2e50e932ce99c3ef6b866c34891df92b';
 	base = 'https://api.themoviedb.org/3';
 	headers = {
+		'Content-Type': 'application/json;charset=utf-8',
 		accept: 'application/json',
 		Authorization: `Bearer ${this.key}`,
 	};
@@ -15,23 +16,20 @@ export default class Tool extends Component {
 		//this.guestSession = 'f03a15e8ae0703a754ce63cf56beaf94';
 		if (!!window.localStorage.getItem('movie_app') && JSON.parse(window.localStorage.getItem('movie_app'))) {
 			let local = JSON.parse(window.localStorage.getItem('movie_app'));
-			if (Date.now() - new Date(local.date) < 3600000) {
+			if (Date.now() - new Date(Number(local.date)) < 3600000) {
 				this.guestSession = local.session;
 				localStorage.setItem('movie_app', `{"date": "${Date.now()}", "session": "${this.guestSession}"}`);
 				return this;
 			}
 		}
-
-		this.guestCreate().then((data) => {
-			this.guestSession = data.guest_session_id;
-			localStorage.setItem('movie_app', `{"date": ${Date.now()}, "session": "${data.guest_session_id}"}`);
-			return data.guest_session_id;
-		});
+		// this.guestCreate().then((data) => {
+		// 	this.guestSession = data.guest_session_id;
+		// 	localStorage.setItem('movie_app', `{"date": ${Date.now()}, "session": "${data.guest_session_id}"}`);
+		// 	return data.guest_session_id;
+		// });
 	}
 
-	componentDidMount() {
-		// this.guest = this.guestCreate({}).then((guest) => {console.log(guest); return guest;});
-	}
+	componentDidMount() {}
 
 	async findMovie(request) {
 		const options = {
@@ -40,7 +38,6 @@ export default class Tool extends Component {
 		};
 		return await fetch(`${this.base}/search/movie?query=${request.query}&page=${request.page}`, options).then(
 			(response) => {
-				console.log('tool findMovie', response);
 				if (response.ok) {
 					return response.json();
 				}
@@ -58,7 +55,6 @@ export default class Tool extends Component {
 			`${this.base}/movie/now_playing?language=en-US&page=${request.page}`,
 			options
 		).then((response) => {
-			console.log('tool nowPlay', response);
 			if (response.ok) {
 				return response.json();
 			}
@@ -153,11 +149,11 @@ post rate
 
 get rate
 	const options = {
-	method: 'GET',
-	headers: {
-		accept: 'application/json',
-		Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyZTUwZTkzMmNlOTljM2VmNmI4NjZjMzQ4OTFkZjkyYiIsIm5iZiI6MTcyMDg4Mjg4NS4zMTUwMjIsInN1YiI6IjY2N2Q4ZDJkNzM2YjNhYzY4ZGZlMWZkYiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.dP090nX-lDIkw_SQ4pblSFCkNXX3NXhna_2YmR-A_KQ'
-	}
+		method: 'GET',
+		headers: {
+			accept: 'application/json',
+			Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyZTUwZTkzMmNlOTljM2VmNmI4NjZjMzQ4OTFkZjkyYiIsIm5iZiI6MTcyMDg4Mjg4NS4zMTUwMjIsInN1YiI6IjY2N2Q4ZDJkNzM2YjNhYzY4ZGZlMWZkYiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.dP090nX-lDIkw_SQ4pblSFCkNXX3NXhna_2YmR-A_KQ'
+		}
 	};
 
 	fetch('https://api.themoviedb.org/3/guest_session/f03a15e8ae0703a754ce63cf56beaf94/rated/movies?language=en-US&page=1&sort_by=created_at.asc', options)
