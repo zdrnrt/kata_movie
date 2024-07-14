@@ -83,7 +83,6 @@ export default class App extends Component {
 				this.setState((data) => {
 					return { ...data, status: { ...data.status, load: true, data: response } };
 				});
-				console.log('App nowPlay', response, this.state);
 			})
 			.catch((error) => {
 				this.setState((data) => {
@@ -96,7 +95,6 @@ export default class App extends Component {
 		this._tool
 			.findMovie(this.state.request)
 			.then((response) => {
-				console.log('App findMovie', response);
 				this.setState((data) => {
 					return { ...data, status: { load: true, error: null, data: response } };
 				});
@@ -136,7 +134,7 @@ export default class App extends Component {
 	};
 
 	postRate = (request) => {
-		console.log('App postRate', request);
+		// console.log('App postRate', request);
 		this._tool
 			.postRate(request)
 			.then((response) => {
@@ -159,7 +157,6 @@ export default class App extends Component {
 
 	render() {
 		let find = _.debounce(this.findMovie, 1000);
-		console.log('state', this.state, this.state.tab == 1);
 		if (this.state.tab == 1) {
 			if (!this.state.status.load) {
 				if (!!this.state.request.query) {

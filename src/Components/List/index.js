@@ -16,8 +16,6 @@ export default class List extends Component {
 		let result = null;
 		let pagination = null;
 
-		console.log('List', request, status, rated);
-
 		if (status.load) {
 			if (!!status.error) {
 				result = (
@@ -26,6 +24,7 @@ export default class List extends Component {
 						message="Ошибка загрузки"
 						description="Во время работы приложения, произошла ошибка приложения. Проверить ваше интернет соединение и попробуйте обновить страницу."
 						type="error"
+						style={{ margin: '0 auto' }}
 					/>
 				);
 			}
@@ -61,11 +60,11 @@ export default class List extends Component {
 				);
 			}
 
-			if (!!request.query && status.data?.total_results == 0) {
+			if (!status.error && !!request.query && status.data?.total_results == 0) {
 				result = <Paragraph>{'Ничего не найдено'}</Paragraph>;
 			}
 
-			if (!request.query && !status.data) {
+			if (!status.error && !request.query && !status.data) {
 				result = <Paragraph>{'Ничего не найдено'}</Paragraph>;
 			}
 		} else {

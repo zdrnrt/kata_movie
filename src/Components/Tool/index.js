@@ -14,19 +14,22 @@ export default class Tool extends Component {
 	constructor(props) {
 		super(props);
 		//this.guestSession = 'f03a15e8ae0703a754ce63cf56beaf94';
+		console.log(!!window.localStorage.getItem('movie_app') && JSON.parse(window.localStorage.getItem('movie_app')));
 		if (!!window.localStorage.getItem('movie_app') && JSON.parse(window.localStorage.getItem('movie_app'))) {
 			let local = JSON.parse(window.localStorage.getItem('movie_app'));
+			console.log(local);
+			console.log(Date.now() - new Date(Number(local.date)) < 3600000);
 			if (Date.now() - new Date(Number(local.date)) < 3600000) {
 				this.guestSession = local.session;
 				localStorage.setItem('movie_app', `{"date": "${Date.now()}", "session": "${this.guestSession}"}`);
 				return this;
 			}
 		}
-		// this.guestCreate().then((data) => {
-		// 	this.guestSession = data.guest_session_id;
-		// 	localStorage.setItem('movie_app', `{"date": ${Date.now()}, "session": "${data.guest_session_id}"}`);
-		// 	return data.guest_session_id;
-		// });
+		this.guestCreate().then((data) => {
+			this.guestSession = data.guest_session_id;
+			localStorage.setItem('movie_app', `{"date": ${Date.now()}, "session": "${data.guest_session_id}"}`);
+			return data.guest_session_id;
+		});
 	}
 
 	componentDidMount() {}
